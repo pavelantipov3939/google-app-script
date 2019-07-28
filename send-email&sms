@@ -1,0 +1,35 @@
+function sendEmail22() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet()
+  var sheet = ss.getSheetByName("Кухня")
+  var rrr = sheet.getDataRange().getValues()
+  var subject = rrr[2][22]//sheet.getRange(3, 23).getValue()
+  var today = rrr[1][4]//sheet.getRange(2, 5).getValue()
+  
+  for(var t = 3; t<sheet.getRange("D3:D100").getLastRow()+1; t++){
+    var message = rrr[t-1][4]//sheet.getRange(t, 5).getValue()
+    var emailAddress = rrr[t-1][3]//sheet.getRange(t, 4).getValue()
+    var sms = sheet.getRange(t, 24).getValue()
+    var tel = rrr[t-1][2]
+    var data1 = rrr[t-1][6]//sheet.getRange(t, 7).getValue()
+    var data2 = rrr[t-1][10]//sheet.getRange(t, 11).getValue()
+    var data3 = rrr[t-1][14]//sheet.getRange(t, 15).getValue()
+    var data4 = rrr[t-1][18]//sheet.getRange(t, 19).getValue()
+    Logger.log(t)
+    
+    if(today.toString()==data1.toString() || today.toString()==data2.toString() || today.toString()==data3.toString() || today.toString()==data4.toString()){
+      if(emailAddress != 0){
+        MailApp.sendEmail(emailAddress,subject,message);
+        Logger.log(emailAddress)
+       }
+      
+      if(tel != 0){
+        var response = UrlFetchApp.fetch(sms)
+        Logger.log("sms")
+      } else{
+        continue
+        }
+    }
+  }
+ 
+}
+ 
