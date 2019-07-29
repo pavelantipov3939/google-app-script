@@ -1,1 +1,102 @@
-
+function start3(){
+  
+function dealAdd(dataDeal) {
+    var options ={
+      "contentType" : "application/json",
+      "method"  : "post",
+      "payload" : JSON.stringify(dataDeal)
+    };
+    var response = UrlFetchApp.fetch("https://britannica.bitrix24.ru/rest/1/tzh8y......ne8/crm.deal.add", options);  
+    return response;
+}// end dealAdd
+  
+    var form          = FormApp.openById('1Ov6uyomtZiytN1OK7......CAJm22SwIIjTQ');
+    var formResponses = form.getResponses();
+    
+    var formResponse   = formResponses[formResponses.length-1];
+    var itemResponses  = formResponse.getItemResponses();
+    var name           = itemResponses[0].getResponse(); // имя
+    var tel            = itemResponses[1].getResponse(); // телефон
+    var email1         = itemResponses[2].getResponse(); // почта
+    var dateofbirth    = itemResponses[3].getResponse(); // дата рождения
+    var ship           = itemResponses[4].getResponse(); // На какую должность претендуете ?
+    var restoran       = itemResponses[5].getResponse(); // В каком Заведение хотели бы работать ?
+    var experience     = itemResponses[7].getResponse(); // В каких компаниях работали за последние 3 года ?
+  
+   
+  
+    for(i=0; i<ship.length; i++) {
+     if (ship[i] == 'Повар'){
+      //Logger.log("True");
+  
+     }// end if
+    } // end for
+  
+    var dataDeal = {
+     'fields' : {          
+       "TITLE": "name deal", 
+       "STAGE_ID": "NEW", // стадия сделки NEW PREPARATION APOLOGY LOSE WON FINAL_INVOICE EXECUTING PREPAYMENT_INVOICE
+       "UF_CRM_1564230563006" : String(ship) , //На какую должность претендуете ? 
+       "COMMENTS" : ship,
+       "SOURCE_DESCRIPTION": experience, //Дополнительно об источнике (Стаж работы)
+       "UF_CRM_1564230497760": String(restoran) , //В каком Заведение хотели бы работать ? 
+     },'params': { "REGISTER_SONET_EVENT": "Y" }
+    }; //dataDeal
+  
+   function addcontact1(data) { 
+     var options ={
+       "contentType" : "application/json",
+       "method"  : "post",
+       "payload" : JSON.stringify(data),
+       "muteHttpExceptions": true,
+     };     
+     var response = UrlFetchApp.fetch("https://britannica.bitrix24.ru/rest/1/tzh......ne8/crm.contact.add", options);  
+     
+     Logger.log(response);
+     return response;
+   }// end addContact
+ 
+   function dealAddContact(dealId,contactID){ 
+     var data = { 
+        'id': dealId,
+        fields:{ 
+          'CONTACT_ID':contactID
+        },
+        params: { "REGISTER_SONET_EVENT": "Y" }			
+    };
+     
+     var options ={
+       "contentType" : "application/json",
+       "method"  : "post",
+       "payload" : JSON.stringify(data)
+     };     
+     var response = UrlFetchApp.fetch("https://britannica.bitrix24.ru/rest/1/tz......ne8/crm.deal.update", options);  
+     return response;
+    }// end dealAddContact
+  
+   var dataContact = {
+     'fields':{ 
+       "TITLE": "Кандидат", 
+       "NAME": name, 
+       "STATUS_ID": "NEW", 
+       
+       "PHONE": [ { "VALUE": tel,    "VALUE_TYPE": "WORK" } ] ,
+       "EMAIL": [ { "VALUE": email1, "VALUE_TYPE": "WORK" } ] ,
+     },
+     'params': { "REGISTER_SONET_EVENT": "Y" }
+   }
+   
+   
+     var newDealID = dealAdd(dataDeal);
+         newDealID = JSON.parse(newDealID) ;
+         newDealID =  newDealID['result'];
+  
+     var newContactId = addcontact1(dataContact);
+         newContactId = JSON.parse(newContactId) ;
+         newContactId =  newContactId['result'];
+     
+    var result = dealAddContact(newDealID,newContactId);
+  
+    Logger.log(result);
+  
+}
