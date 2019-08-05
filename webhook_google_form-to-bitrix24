@@ -6,7 +6,7 @@ function dealAdd(dataDeal) {
       "method"  : "post",
       "payload" : JSON.stringify(dataDeal)
     };
-    var response = UrlFetchApp.fetch("https://britannica.bitrix24.ru/rest/1/tzh8y......ne8/crm.deal.add", options);  
+    var response = UrlFetchApp.fetch("https://br......ca.bitrix24.ru/rest/1/tzh8y......ne8/crm.deal.add", options);  
     return response;
 }// end dealAdd
   
