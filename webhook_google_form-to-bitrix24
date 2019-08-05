@@ -70,7 +70,7 @@ function dealAdd(dataDeal) {
        "method"  : "post",
        "payload" : JSON.stringify(data)
      };     
-     var response = UrlFetchApp.fetch("https://britannica.bitrix24.ru/rest/1/tz......ne8/crm.deal.update", options);  
+     var response = UrlFetchApp.fetch("https://br......ca.bitrix24.ru/rest/1/tz......ne8/crm.deal.update", options);  
      return response;
     }// end dealAddContact
   
