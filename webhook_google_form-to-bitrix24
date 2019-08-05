@@ -50,7 +50,7 @@ function dealAdd(dataDeal) {
        "payload" : JSON.stringify(data),
        "muteHttpExceptions": true,
      };     
-     var response = UrlFetchApp.fetch("https://britannica.bitrix24.ru/rest/1/tzh......ne8/crm.contact.add", options);  
+     var response = UrlFetchApp.fetch("https://br......ica.bitrix24.ru/rest/1/tzh......ne8/crm.contact.add", options);  
      
      Logger.log(response);
      return response;
